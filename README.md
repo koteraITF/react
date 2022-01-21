@@ -98,7 +98,10 @@ memoで囲っても、親コンポーネントから子コンポーネントにo
       </Switch>
     </BrowserRouter>
   ```
+ 
+  
 ## ネスト化されたルーティング
+  
 ネスト化されたルーティングの設定は非常に難しい。
 まず、Page1にPage1DetailAをネスト化させたい場合は下図のようにPage1.jsxファイルにLinkタグを用いてURLを設定する。  
   <img width="381" alt="image" src="https://user-images.githubusercontent.com/97214466/150475883-94e2d9ed-a31f-4e84-ae0d-a24513584d20.png">  
@@ -114,7 +117,22 @@ memoで囲っても、親コンポーネントから子コンポーネントにo
 <img width="235" alt="image" src="https://user-images.githubusercontent.com/97214466/150476514-66ba7f26-6b76-4c79-8024-4e43d3ad1ef6.png">  
  また、応用として、render関数にはデフォルトでpropsが設定されているので、下図のように設定することでpage1のタイピングミスを防ぐことができる。　　  
     
- <img width="323" alt="image" src="https://user-images.githubusercontent.com/97214466/150476936-1fe3cab0-4e98-4914-a8c1-9e198afaf9d0.png">
+ <img width="323" alt="image" src="https://user-images.githubusercontent.com/97214466/150476936-1fe3cab0-4e98-4914-a8c1-9e198afaf9d0.png">  
+ 以上でルーティングに関する基礎は終わった。  
+ しかし、このままではApp.jsxのルーティングに関する記述量が多すぎるため、ルーティングファイルは分ける。  
+ 下図のように、<Switch>タグ以下のものをすべてRouter.jsx内に記述する。
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/97214466/150479814-32e04db8-b27c-4e75-a84b-b953dc0351db.png">  
+そして、App.jsxは下図のようになりすっきりする。    
+    <img width="274" alt="image" src="https://user-images.githubusercontent.com/97214466/150479907-a58c3176-84db-49c8-b1e6-7bb0b02bf3fd.png">  
+ しかし、Route.jsxないはDetailAのネストルーティングの記述が冗長であるため、別ファイルにかくこともできる.  
+ 下図のように配列でそれぞれの属性を記述する。
+    <img width="419" alt="image" src="https://user-images.githubusercontent.com/97214466/150481088-db0a2ac0-0bc5-4447-a583-1b9f8c2e7d34.png">  
+  そして、Router.jsxは下記のように記述する。正直、ここまでする理由はわからない。私はめんどくさいと感じた。
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/97214466/150481358-9c449c8b-1471-49e6-967c-c0d71540b840.png">
+
+
+
+
 
     
     
