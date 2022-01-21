@@ -98,7 +98,31 @@ memoで囲っても、親コンポーネントから子コンポーネントにo
       </Switch>
     </BrowserRouter>
   ```
+## ネスト化されたルーティング
+ネスト化されたルーティングの設定は非常に難しい。
+まず、Page1にPage1DetailAをネスト化させたい場合は下図のようにPage1.jsxファイルにLinkタグを用いてURLを設定する。  
+  <img width="381" alt="image" src="https://user-images.githubusercontent.com/97214466/150475883-94e2d9ed-a31f-4e84-ae0d-a24513584d20.png">  
+そして、下図のようにルーティングを設定していくのだが.....  むずいので少しずつ解説する  
+  <img width="281" alt="image" src="https://user-images.githubusercontent.com/97214466/150475837-f60dd77f-f438-4f0b-b38f-f967255a04ab.png">
+まず<Route>タグにrender関数をもたせる。
+  ```
+  <Route path="/page1" render = { () => (ルーティング記述) }
+  ```
+そして、ルーティング記述の欄にpage1とpage1DetailAのルーティングを記述する。
+まず、<Route>タグの中に<Switch>タグを用いる。そして、その<Switch>タグの中で各種ルーティングを設定する。  
+ 下図は<Switch>タグの中の記述である。  
+<img width="235" alt="image" src="https://user-images.githubusercontent.com/97214466/150476514-66ba7f26-6b76-4c79-8024-4e43d3ad1ef6.png">  
+ また、応用として、render関数にはデフォルトでpropsが設定されているので、下図のように設定することでpage1のタイピングミスを防ぐことができる。　　  
+    
+ <img width="323" alt="image" src="https://user-images.githubusercontent.com/97214466/150476936-1fe3cab0-4e98-4914-a8c1-9e198afaf9d0.png">
 
+    
+    
+
+
+  
+
+  
 
 
 
