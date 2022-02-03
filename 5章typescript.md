@@ -47,4 +47,123 @@ const Component = () => (
   <h1>Hello,World</h1>
 );
 ```
+## jsonplaceholderからのデータの取得
+
+例えば、下記のようなjsonデータを取得したい場合を考える。
+```
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "delectus aut autem",
+    "completed": false
+  },
+```
+
+まず、下記のように設定することで、Jsonデータに型をつけると、データがどの型を受けるのかをTypescriptに理解させる。
+```
+type TodoType = {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+};
+```
+
+そして、下記のように上記で設定した配列の型を設定することで、タイプミスを防ぐことができる。
+```
+export default function App() {
+  const [todos, setTodos] = useState<Array<TodoType>>([]);　//配列の型を指定
+
+  const onClickFetchData = () => {
+    axios
+      .get<Array<TodoType>>("https://jsonplaceholder.typicode.com/todos")　//配列の型を指定
+      .then((res) => {
+        setTodos(res.data);
+      });
+  };
+```
+## Propsの型定義
+propsも下記のように型定義ができる。
+
+```
+type TodoType = {　　　////////TodoTypeの型定義
+  userId: number;
+  title: string;
+  completed: boolean;
+};
+
+export const Todo = (props: TodoType) => {　　　//////////////propsの型定義
+  const { title, userId, completed } = props;
+  const completeMark = completed ? "[完]" : "[未]";
+  return <p>{`${completeMark} ${title}(ユーザー：${userId})`}</p>;
+};
+```
+また、TodoTypeの要素が、親コンポーネントにない場合はエラーが発生する。  
+この場合は上記でcompleted:booleanという型定義しているにもかかわらず、completedを配置していないためエラーが発生する。
+```
+  <Todo title={todo.title} userId={todo.userId} /> 
+  ///Property 'completed' is missing in type '{ title: string; userId: number; }' but required in type 'TodoType'.
+```
+しかし、下記のようにcompleted?とすることで親コンポーネントはcompletedを渡しても渡さなくてもどちらでもよくなる。
+```
+type TodoType = {　　　////////TodoTypeの型定義
+  userId: number;
+  title: string;
+  completed?: boolean;    ///?
+};
+```
+## 型定義の管理
+配列の型定義はコンポーネントごとに書くのはめんどくさいので、typesフォルダーの中にtodo.tsのような形で保存して、exportするのが便利。
+
+```
+(todo.ts)
+export type TodoType = {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+};
+
+```
+また、todo.tsをpropsで受け取る場合は、下記のように指定するとよい。今回の場合はidはいらないので、Pickを用いる。  
+Pick<取り出すTS,取り出したい型>   
+
+```
+export const Todo = (
+  props: Pick<TodoType, "userId" | "title" | "completed"> ////Pick
+) => {
+  const { title, userId, completed = false } = props;
+  const completeMark = completed ? "[完]" : "[未]";
+  return <p>{`${completeMark} ${title}(ユーザー：${userId})`}</p>;
+};
+
+```
+
+逆にOmitといういらない型のみを排除するコマンドも存在する。今回の場合はidを排除する。  
+Omit<取り出すTS,除く型>  
+
+```
+export const Todo = (props: Omit<TodoType, "id">) => {　　　//////Omit
+  const { title, userId, completed = false } = props;
+  const completeMark = completed ? "[完]" : "[未]";
+  return <p>{`${completeMark} ${title}(ユーザー：${userId})`}</p>;
+};
+
+```
+
+## 関数コンポーネントの型定義
+
+下記のようにVFC or FC を用いることで、関数であることを宣言できる。さらにVFCにPropsを渡すことができる。
+```
+type Props = {
+  color: String;
+  fontSize: String;
+};
+
+export const Text: VFC<Props> = (props) => {
+  const { color, fontSize } = props;
+  return <p style={{ color, fontSize }}>テキストです</p>;
+};
+```
+
 
