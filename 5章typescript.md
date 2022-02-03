@@ -166,4 +166,45 @@ export const Text: VFC<Props> = (props) => {
 };
 ```
 
+## オプショナルチューニング
+
+下記コマンドをApp.tsxにexportして、
+```
+export const UserProfile: VFC<Props> = (props) => {
+  const { user } = props;
+  return (
+    <dl>
+      <dt>名前</dt>
+      <dd>{user.name}</dd>
+      <dt>趣味</dt>
+      <dd>{user.hobbies.join(" / ")}</dd>
+    </dl>
+  );
+};
+```
+
+下記のようにApp.tsxをかくと、それぞれの属性が表示されるが、hobbiesを消すとエラーになる。
+```
+(App.tsx)
+const user: User = {
+  name: "じゃけぇ",
+  hobbies: ["映画", "ゲーム"]  ///消すとエラーになる。
+};
+```
+しかし、下記のようにuser.hobbies?のように？をつけることでその要素がなくてもエラーが出なくなる。  
+これをオプショナルチューニングという。
+```
+export const UserProfile: VFC<Props> = (props) => {
+  const { user } = props;
+  return (
+    <dl>
+      <dt>名前</dt>
+      <dd>{user.name}</dd>
+      <dt>趣味</dt>
+      <dd>{user.hobbies?.join(" / ")}</dd> ///オプショナルチューニング
+    </dl>
+  );
+};
+```
+
 
