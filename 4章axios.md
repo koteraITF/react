@@ -20,10 +20,10 @@ axios.get("URL")でURLのGETリクエストを取得できる。
 # axiosの具体的な使用例
 
 
-下記はaxiosを用いて、Jsonplaceholder(https://jsonplaceholder.typicode.com/users)からデータを持ってきて、それをmap関数で解体して外部APIから情報を得る操作である。
+下記はaxiosを用いて、`Jsonplaceholder(https://jsonplaceholder.typicode.com/users)`からデータを持ってきて、それをmap関数で解体して外部APIから情報を得る操作である。
 
-## ---------------------------------------------------------------------------------
-```
+
+```javaScript
 function App() {
   const [userProfile, setUserProfile] = useState([]);
   const onClickUser = () => {
