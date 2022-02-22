@@ -60,7 +60,20 @@ useEffect(() => {
 
 
 例えば、下図のようにnumの再レンダリングを防ぎたい場合は、第二引数の配列にnumを入れる。
-<img width="500" alt="image" src="https://user-images.githubusercontent.com/97214466/150306848-ba8f696a-faef-4edb-8751-a152aa6f5a61.png">
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/97214466/150306848-ba8f696a-faef-4edb-8751-a152aa6f5a61.png">  
+
+また、useEffectは初期値としても利用でき、オープンAPIからとった情報をクリックイベントなどで登録しなくても、初期値として入れるだけで、  
+画面にオープンAPIの情報が反映される。
+```javaScript
+
+ const [allCountriesData, setAllCountriesData] = useState([]);
+  
+ useEffect(() => {
+    axios.get("https://api.covid19api.com/summary").then((response) => {
+      setAllCountriesData(response.data.Countries);
+    });
+  });
+```
 
 ## 再レンダリングが起きるとき
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/97214466/150468986-5146acb7-3819-44b9-9910-75f4ccd11a74.png">
