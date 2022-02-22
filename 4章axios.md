@@ -151,4 +151,27 @@ export default App;
   };
 ```
 
+下記のように、set関数を用意し、初期値に""を割り当て、空の配列を用意し、  
+axiosでオープンAPIからデータを取り出し、set関数に配列形式でdataを渡すことができる。  
+この状態で、countryDataはオープンAPIから受けとった情報をもっているので、  
+`countryData.date や　countryData.totalConfirmed`などの書き方で、それぞれの配列の情報を受け取ることができる。
+```javaScript
+
+  const [countryData, setCountryData] = useState({
+    date: "",
+    totalConfirmed: "",
+  });
+
+  const getCountryData = () => {
+    axios
+      .get(`https://api.covid19api.com/country/${country}`)
+      .then((response) => {
+        setCountryData({
+          data: response.data,
+          totalConfirmed: response.data.Confirmed,
+        });
+      });
+  };
+```
+
 
