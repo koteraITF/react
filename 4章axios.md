@@ -135,6 +135,7 @@ function App() {
 export default App;
 
 ```
+# axiosの具体的な使用例2 
 
 <img width="206" alt="image" src="https://user-images.githubusercontent.com/97214466/154915559-6c5becb8-c94b-43bf-8935-a5ac0d851a59.png">
 上の写真のように、莫大なJsonデータ（760）から最新のデータ（760）を取り出したい場合は、下記コマンドのように、 [response.data.length-1] のように記述することで、  
