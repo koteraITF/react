@@ -178,9 +178,74 @@ const a = "a"
 const b = "b"
 a === b //true
 ```
-しかし、下記の配列の比較ではfalseになる。
+しかし、下記の配列の比較ではfalseになる。これは、配列aと配列bは違うインスタンスであるとみなされているためである。  
 ```
 const a = [1,2,3]
 const b = [1,2,3]
 a === b //false
+```
+
+## useCallback
+useEffectでも不要な再レンダリングは防げるが、下記のようなコードの場合、wordsはコンポーネントが再描画されるたびに、新しい配列のインスタンスが生成されてしまい、useEffectの
+依存配列でも、再レンダリングを防ぐことができない。
+
+```javaScript
+import { useEffect, useState } from "react";
+import "./styles.css";
+
+const useAnyLeyToRender = () => {
+  const [, forceRender] = useState();
+
+  useEffect(() => {
+    window.addEventListener("keydown", forceRender);
+    return () => window.removeEventListener("keydown", forceRender);
+  }, []);
+};
+
+export default function App() {
+  useAnyLeyToRender();
+  const words = ["sick","powder"];
+  useEffect(() => {
+    console.log("fresh render");
+  },[words]);                    /////////ここ
+  return (
+    <h1>Open the console</h1>
+  );
+}
+```
+こういった例外に対応するためにuseCallbackを用いる。  
+例えば、下記の場合、コンポーネントが再描画されるたびに、関数fnは新しいインスタンスを生成するので、関数fnの再描画防止ができない。  
+```javaScript
+import { useEffect } from "react";
+
+export default function App() {
+  const fn = () => {
+    console.log("hello");
+  };
+
+  useEffect(() => {
+    console.log("fresh render");
+    fn();
+  },[fn]);
+
+  return <div className="App"></div>;
+}
+```
+そこで、useCallbackを用いて、fn関数をuseCallbackで囲うと、fnはuseCallbackにより”メモ化”され、関数のインスタンスが保存され、関数fnはコンポーネントの再描画のたびに、インスタンスが再生成されなくなり、結果として再描画の副作用を止めることができる。  
+```javaScript
+import { useCallback, useEffect } from "react";
+
+
+export default function App() {
+  const fn = useCallback(() => {
+    console.log("hello");
+  },[]);
+
+  useEffect(() => {
+    console.log("fresh render");
+    fn();
+  },[fn]);
+
+  return <div className="App"></div>;
+}
 ```
