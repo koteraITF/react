@@ -58,3 +58,11 @@ export const PureCat = memo(Cat); //メモ化
 `
 export const PureCat = memo(Cat,(prev,next) => prev.name === next.name)); //メモ化
 `
+## データの送信
+ファイルをアップロードする際には、multipart/form-dataという形式でデータを送信する。   
+javaScriptでこれを送信するには、FormDataオブジェクトにデータを格納する必要がある。
+```js
+const formData = new FormData();
+
+formData.append("usename","Alex")
+```
